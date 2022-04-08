@@ -14,6 +14,12 @@ namespace NotesARK6.Model
             Name = name;
         }
 
+        public Note(string name, string content)
+        {
+            Name = name;
+            Content = content;
+        }
+
         public int Id
         {
             get => id;
