@@ -72,6 +72,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\NotesCollectionModel.cs" />
     <Compile Include="ViewModel\ControllComands.cs" />
     <Compile Include="ViewModel\ControllComandsWithParameter.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />

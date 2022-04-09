@@ -1,17 +1,7 @@
-﻿using NotesARK6.ViewModel;
+﻿using NotesARK6.Model;
+using NotesARK6.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace NotesARK6.View
 {
@@ -20,11 +10,11 @@ namespace NotesARK6.View
     /// </summary>
     public partial class WindowCreateAndEditNote : Window
     {
-        public WindowCreateAndEditNote(string title)
+        public WindowCreateAndEditNote(string noteTitle,ref Note note)
         {
-            this.Resources.Add("Title", title);
+            Resources.Add("Title", noteTitle);
             InitializeComponent();
-            DataContext = new WindowCreateAndEditNoteViewModel();
+            DataContext = new WindowCreateAndEditNoteViewModel(note);
         }
     }
 }

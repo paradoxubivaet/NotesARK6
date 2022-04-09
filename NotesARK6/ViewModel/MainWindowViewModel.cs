@@ -7,7 +7,6 @@ using System.Windows;
 using NotesARK6.View;
 using NotesARK6.Model;
 using System.Collections.ObjectModel;
-using Prism.Commands;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -15,10 +14,8 @@ namespace NotesARK6.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Note> notesCollection =
-            new ObservableCollection<Note> { new Note("today", "i'm a testing note :o") };
+        private NotesCollectionModel notesCollectionModel;
         private Note selectedNote;
-
 
         // Команды управления {
         public ControllComands CreateNewNoteCommand { get; private set; }
@@ -31,17 +28,22 @@ namespace NotesARK6.ViewModel
             CreateNewNoteCommand = new ControllComands(CreateNewNote);
             DeleteNoteCommand = new ControllComandsWithParameter(DeleteNote);
             FindNoteCommand = new ControllComands(FindNote);
+
+            notesCollectionModel = NotesCollectionModel.notesCollection;
+            notesCollectionModel.NotesCollection = 
+                    new ObservableCollection<Note> { new Note("today", "i'm a testing note :o"),
+                    new Note("today", "yeah bro")};
         }
 
         public ObservableCollection<Note> NotesCollection
-        { 
-            get 
+        {
+            get
             {
-                return notesCollection;
+                return notesCollectionModel.NotesCollection;
             }
             set
             {
-                notesCollection = value;
+                notesCollectionModel.NotesCollection = value;
             }
         }
 
@@ -61,8 +63,11 @@ namespace NotesARK6.ViewModel
         public void CreateNewNote()
         {
             string noteTitle = DateTime.Now.ToString();
-            WindowCreateAndEditNote newNoteWindow = new WindowCreateAndEditNote(noteTitle);
-            newNoteWindow.Show();
+            Note note = new Note(noteTitle);
+            NotesCollection.Add(note);
+
+            WindowCreateAndEditNote noteWindow = new WindowCreateAndEditNote(noteTitle,ref note);
+            noteWindow.Show();
         }
 
         //Удаление заметки

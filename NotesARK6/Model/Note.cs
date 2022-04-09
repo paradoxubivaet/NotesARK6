@@ -9,6 +9,10 @@ namespace NotesARK6.Model
         private string name;
         private string content;
 
+        public Note()
+        {
+        }
+
         public Note(string name)
         {
             Name = name;
