@@ -16,17 +16,20 @@ namespace NotesARK6.ViewModel
     {
         private NotesCollectionModel notesCollectionModel;
         private Note selectedNote;
+        private IDialogService dialogService = new DialogService();
 
         // Команды управления {
         public ControllComands CreateNewNoteCommand { get; private set; }
-        public ControllComandsWithParameter DeleteNoteCommand { get; private set; }
         public ControllComands FindNoteCommand { get; private set; }
+        public ControllComandsWithParameter DeleteNoteCommand { get; private set; }
+        public ControllComandsWithParameter EditNoteCommand { get; private set; }
         // Команды управления }
 
         public MainWindowViewModel()
         {
             CreateNewNoteCommand = new ControllComands(CreateNewNote);
             DeleteNoteCommand = new ControllComandsWithParameter(DeleteNote);
+            EditNoteCommand = new ControllComandsWithParameter(EditNote);
             FindNoteCommand = new ControllComands(FindNote);
 
             notesCollectionModel = NotesCollectionModel.notesCollection;
@@ -74,18 +77,24 @@ namespace NotesARK6.ViewModel
         public void DeleteNote(Note note)
         {
             NotesCollection.Remove(note);
-
-            MessageBox.Show(NotesCollection.Count.ToString());
         }
 
         public void FindNote()
         {
+            dialogService.ShowDialog();
+        }
 
+        public void EditNote(Note note)
+        {
+            string noteTitle = note.Name;
+            WindowCreateAndEditNote noteWindow = new WindowCreateAndEditNote(noteTitle,ref note);
+
+            noteWindow.Show();
         }
 
         // PropertyChanged 
         // Пока не совсем понимаю, для чего это нужно
-
+        // Я понял, но я хочу разобраться, как это работает
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

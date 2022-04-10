@@ -8,7 +8,8 @@
         xmlns:viewmodel="clr-namespace:NotesARK6.ViewModel"
         mc:Ignorable="d"
         Title="Notes" Height="450" Width="800"
-        x:Name="_mainWindow">
+        x:Name="_mainWindow"
+        WindowStartupLocation="CenterScreen">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,19 +25,22 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <DataGrid ItemsSource="{Binding NotesCollection}" SelectedItem="{Binding SelectedNote}" AutoGenerateColumns="False" x:Name="DataGrid_Notes" Margin="5" Grid.Row="2" Grid.Column="1">
+        <DataGrid ItemsSource="{Binding NotesCollection}" SelectedItem="{Binding SelectedNote}" IsReadOnly="True" AutoGenerateColumns="False" x:Name="DataGrid_Notes" Margin="5" Grid.Row="2" Grid.Column="1">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding EditNoteCommand}" CommandParameter="{Binding SelectedNote}" />
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Width="1*" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Content" Width="3*"  Binding="{Binding Content}"/>
             </DataGrid.Columns>
         </DataGrid>
-
         <ToolBar Grid.Row="1" Grid.Column="1" Margin="5">
             <Button Content="Создать" Command="{Binding CreateNewNoteCommand}"/>
             <Separator />
             <Button Content="Удалить" Command="{Binding DeleteNoteCommand}" CommandParameter="{Binding SelectedNote}"/>
             <Separator />
-            <Button Content="Найти"/>
+            <Button  Content="Найти" Command="{Binding FindNoteCommand}"/>
         </ToolBar>
+        
     </Grid>
 </Window>

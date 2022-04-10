@@ -23,8 +23,10 @@ namespace NotesARK6.ViewModel
 
         public WindowCreateAndEditNoteViewModel(Note note) 
         {
-            currentNote = note;
             notesCollectionModel = NotesCollectionModel.notesCollection;
+
+            currentNote = note;
+            Content = note.Content;
 
             SaveNoteCommand = new ControllComands(SaveNote);
         }
