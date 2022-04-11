@@ -9,7 +9,8 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>NotesARK6</RootNamespace>
     <AssemblyName>NotesARK6</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>10.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -17,6 +18,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,6 +59,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -79,15 +82,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Messages\SearchSettingMessage.cs" />
     <Compile Include="Model\NotesCollectionModel.cs" />
-    <Compile Include="ViewModel\ControllComands.cs" />
-    <Compile Include="ViewModel\ControllComandsWithParameter.cs" />
-    <Compile Include="ViewModel\DialogService.cs" />
-    <Compile Include="ViewModel\Dialogs\FindWindowDialogViewModel.cs" />
-    <Compile Include="View\Dialogs\FindWindowDialog.xaml.cs">
+    <Compile Include="Services\ControllComands.cs" />
+    <Compile Include="Services\ControllComandsWithParameter.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\IMessenger.cs" />
+    <Compile Include="Services\Messenger.cs" />
+    <Compile Include="Services\Subscription.cs" />
+    <Compile Include="ViewModel\FindWindowDialogViewModel.cs" />
+    <Compile Include="View\FindWindowDialog.xaml.cs">
       <DependentUpon>FindWindowDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\IDialogService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\WindowCreateAndEditNoteViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
@@ -128,7 +136,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="View\Dialogs\FindWindowDialog.xaml">
+    <Page Include="View\FindWindowDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

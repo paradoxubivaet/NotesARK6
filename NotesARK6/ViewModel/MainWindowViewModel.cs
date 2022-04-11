@@ -9,6 +9,9 @@ using NotesARK6.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
+using NotesARK6.Services;
+using NotesARK6.Messages;
 
 namespace NotesARK6.ViewModel
 {
@@ -16,14 +19,21 @@ namespace NotesARK6.ViewModel
     {
         private NotesCollectionModel notesCollectionModel;
         private Note selectedNote;
-        private IDialogService dialogService = new DialogService();
+        private IDialogService dialogService;
+        private IMessenger messenger;
 
-        // Команды управления {
+        // Controll comands {
         public ControllComands CreateNewNoteCommand { get; private set; }
         public ControllComands FindNoteCommand { get; private set; }
+
+        // added right now 
+        public ControllComands SortNotesCommand { get; private set; }
+        private string searchString = "testing";
+        // added right now 
+
         public ControllComandsWithParameter DeleteNoteCommand { get; private set; }
         public ControllComandsWithParameter EditNoteCommand { get; private set; }
-        // Команды управления }
+        // Controll comands }
 
         public MainWindowViewModel()
         {
@@ -31,11 +41,19 @@ namespace NotesARK6.ViewModel
             DeleteNoteCommand = new ControllComandsWithParameter(DeleteNote);
             EditNoteCommand = new ControllComandsWithParameter(EditNote);
             FindNoteCommand = new ControllComands(FindNote);
+            messenger = new Messenger();
+            messenger.Subscribe<SearchSettingMessage>(this, SortNotes);
+            // added right now
+            SortNotesCommand = new ControllComands(SortNotes);
+            // adder right now 
+
+            dialogService = new DialogService();
 
             notesCollectionModel = NotesCollectionModel.notesCollection;
             notesCollectionModel.NotesCollection = 
                     new ObservableCollection<Note> { new Note("today", "i'm a testing note :o"),
                     new Note("today", "yeah bro")};
+
         }
 
         public ObservableCollection<Note> NotesCollection
@@ -73,7 +91,7 @@ namespace NotesARK6.ViewModel
             noteWindow.Show();
         }
 
-        //Удаление заметки
+        // Delete note
         public void DeleteNote(Note note)
         {
             NotesCollection.Remove(note);
@@ -84,6 +102,13 @@ namespace NotesARK6.ViewModel
             dialogService.ShowDialog();
         }
 
+        public void SortNotes(object obj)
+        {
+            var message = (SearchSettingMessage)obj;
+            //ICollectionView notesView = CollectionViewSource.GetDefaultView(this.NotesCollection);
+            //notesView.Filter = item => (item as Note).Content.Contains(searchString);
+        }
+
         public void EditNote(Note note)
         {
             string noteTitle = note.Name;
@@ -92,9 +117,6 @@ namespace NotesARK6.ViewModel
             noteWindow.Show();
         }
 
-        // PropertyChanged 
-        // Пока не совсем понимаю, для чего это нужно
-        // Я понял, но я хочу разобраться, как это работает
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

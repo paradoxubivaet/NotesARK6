@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:NotesARK6.ViewModel.Dialogs"
         mc:Ignorable="d"
         Title="Поиск" Height="250" Width="400"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Topmost="True">
         
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,11 +30,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <CheckBox  IsChecked="{Binding SearchByName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Поиск по имени" Grid.Column="0"></CheckBox>
-            <CheckBox IsChecked="{Binding SearchByContent}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Поиск по контенту" Grid.Column="1"></CheckBox>
+            <CheckBox  IsChecked="{Binding SearchByName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by name" Grid.Column="0"></CheckBox>
+            <CheckBox IsChecked="{Binding SearchByContent}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by content" Grid.Column="1"></CheckBox>
         </Grid>
         
         <TextBox Text="{Binding SearchString}" Margin="5" Grid.Row="2" Grid.Column="1"/>
-        <Button Command="{Binding FindNotesCommand}" Margin="5" Content="Найти" Grid.Row="3" Grid.Column="1" /> 
+        <Button Command="{Binding FindNotesCommand}" Margin="5" Content="Find" Grid.Row="3" Grid.Column="1" /> 
     </Grid>
 </Window>

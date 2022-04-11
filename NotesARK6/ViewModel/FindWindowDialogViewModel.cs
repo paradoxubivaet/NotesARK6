@@ -15,9 +15,9 @@ namespace NotesARK6.ViewModel.Dialogs
         private bool searchByName;
         private bool searchByContent;
 
-        //Команды управления
+        //Controll commands
         public ControllComands FindNotesCommand { get; private set; }
-        //Команды управления 
+        //Controll commands
 
         public FindWindowDialogViewModel()
         {
@@ -65,8 +65,9 @@ namespace NotesARK6.ViewModel.Dialogs
 
         public void FindNote()
         {
-            MessageBox.Show(SearchByName.ToString() + " " + SearchByContent.ToString());
+           
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

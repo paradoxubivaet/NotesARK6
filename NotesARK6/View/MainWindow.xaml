@@ -35,12 +35,11 @@
             </DataGrid.Columns>
         </DataGrid>
         <ToolBar Grid.Row="1" Grid.Column="1" Margin="5">
-            <Button Content="Создать" Command="{Binding CreateNewNoteCommand}"/>
+            <Button Content="Create" Command="{Binding CreateNewNoteCommand}"/>
             <Separator />
-            <Button Content="Удалить" Command="{Binding DeleteNoteCommand}" CommandParameter="{Binding SelectedNote}"/>
+            <Button Content="Delete" Command="{Binding DeleteNoteCommand}" CommandParameter="{Binding SelectedNote}"/>
             <Separator />
-            <Button  Content="Найти" Command="{Binding FindNoteCommand}"/>
+            <Button  Content="Find" Command="{Binding FindNoteCommand}"/>
         </ToolBar>
-        
     </Grid>
 </Window>

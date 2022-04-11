@@ -14,7 +14,7 @@ namespace NotesARK6.ViewModel
         {
             var dialog = new FindWindowDialog();
 
-            dialog.ShowDialog();
+            dialog.Show();
         }
     }
 }
