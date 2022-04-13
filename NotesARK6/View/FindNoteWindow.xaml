@@ -1,14 +1,12 @@
-﻿<Window x:Class="NotesARK6.ViewModel.Dialogs.FindWindowDialog"
+﻿<Window x:Class="NotesARK6.View.FindNoteWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NotesARK6.ViewModel.Dialogs"
+        xmlns:local="clr-namespace:NotesARK6.View"
+        DataContext="{Binding Path=FindNoteWindowViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
-        Title="Поиск" Height="250" Width="400"
-        WindowStartupLocation="CenterScreen"
-        Topmost="True">
-        
+        Title="FindNoteWindow" Height="250" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -33,8 +31,8 @@
             <CheckBox  IsChecked="{Binding SearchByName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by name" Grid.Column="0"></CheckBox>
             <CheckBox IsChecked="{Binding SearchByContent}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by content" Grid.Column="1"></CheckBox>
         </Grid>
-        
+
         <TextBox Text="{Binding SearchString}" Margin="5" Grid.Row="2" Grid.Column="1"/>
-        <Button Command="{Binding FindNotesCommand}" Margin="5" Content="Find" Grid.Row="3" Grid.Column="1" /> 
+        <Button Command="{Binding FindNotesCommand}" Margin="5" Content="Find" Grid.Row="3" Grid.Column="1" />
     </Grid>
 </Window>

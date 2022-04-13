@@ -25,7 +25,7 @@ namespace NotesARK6.View
             InitializeComponent();
 
             context = new NoteContext();
-            DataContext = new MainWindowViewModel();
+            //DataContext = new MainWindowViewModel();
         }
     }
 }

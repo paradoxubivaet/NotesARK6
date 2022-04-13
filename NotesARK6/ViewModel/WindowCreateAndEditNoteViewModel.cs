@@ -1,34 +1,44 @@
-﻿using NotesARK6.Model;
-using System;
-using System.Collections.Generic;
+﻿using NotesARK6.Messages;
+using NotesARK6.Model;
+using NotesARK6.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace NotesARK6.ViewModel
 {
     public class WindowCreateAndEditNoteViewModel : INotifyPropertyChanged
     {
         private NotesCollectionModel notesCollectionModel;
-        private string content { get; set; }
+        private IMessenger messenger;
+        private string windowTitle;
+        private string content;
         private Note currentNote;
 
-        // Команды
+        // Commands
         public ControllComands SaveNoteCommand { get; private set; }
-        // Команды 
+        // Commands 
 
-        public WindowCreateAndEditNoteViewModel(Note note) 
+        public WindowCreateAndEditNoteViewModel(IMessenger messenger) 
         {
             notesCollectionModel = NotesCollectionModel.notesCollection;
-
-            currentNote = note;
-            Content = note.Content;
-
+            
+            this.messenger = messenger;
+            messenger.Subscribe<CreateEditParametersMessage>(this, TakeMessage);
+            
             SaveNoteCommand = new ControllComands(SaveNote);
+        }
+
+        public string WindowTitle
+        {
+            get
+            {
+                return windowTitle;
+            }
+            set
+            {
+                windowTitle = value;
+            }
         }
 
         public string Content 
@@ -59,6 +69,13 @@ namespace NotesARK6.ViewModel
         public void SaveNote()
         {
             currentNote.Content = Content;
+        }
+
+        public void TakeMessage(object obj)
+        {
+            var message = (CreateEditParametersMessage)obj;
+            Content = message.Note.Content;
+            currentNote = message.Note;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NotesARK6.View"
         xmlns:model="clr-namespace:NotesARK6.Model"
         xmlns:viewmodel="clr-namespace:NotesARK6.ViewModel"
+        DataContext="{Binding Path=MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="Notes" Height="450" Width="800"
         x:Name="_mainWindow"

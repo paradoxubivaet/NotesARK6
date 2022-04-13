@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NotesARK6.Messages;
+using NotesARK6.Services;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
-namespace NotesARK6.ViewModel.Dialogs
+namespace NotesARK6.ViewModel
 {
-    public class FindWindowDialogViewModel : INotifyPropertyChanged
+    public class FindNoteWindowViewModel : INotifyPropertyChanged
     {
         private string searchString;
         private bool searchByName;
         private bool searchByContent;
+        private IMessenger messenger;
 
         //Controll commands
         public ControllComands FindNotesCommand { get; private set; }
         //Controll commands
 
-        public FindWindowDialogViewModel()
+        public FindNoteWindowViewModel(IMessenger messenger)
         {
             FindNotesCommand = new ControllComands(FindNote);
+
+            this.messenger = messenger;
         }
 
-        public string SearchString 
+        public string SearchString
         {
             get
             {
@@ -33,7 +32,7 @@ namespace NotesARK6.ViewModel.Dialogs
             set
             {
                 searchString = value;
-                OnPropertyChanged();
+                OnPropertyChanged("SearchString");
             }
         }
 
@@ -65,12 +64,11 @@ namespace NotesARK6.ViewModel.Dialogs
 
         public void FindNote()
         {
-           
+            messenger.Send(new SearchSettingMessage(SearchString, SearchByName, SearchByContent));
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));

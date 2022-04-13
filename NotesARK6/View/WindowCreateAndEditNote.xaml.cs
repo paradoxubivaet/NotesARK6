@@ -10,11 +10,15 @@ namespace NotesARK6.View
     /// </summary>
     public partial class WindowCreateAndEditNote : Window
     {
-        public WindowCreateAndEditNote(string noteTitle,ref Note note)
+        //public WindowCreateAndEditNote(string noteTitle,ref Note note)
+        //{
+        //    Resources.Add("Title", noteTitle);
+        //    InitializeComponent();
+        //    DataContext = new WindowCreateAndEditNoteViewModel(note);
+        //}
+        public WindowCreateAndEditNote()
         {
-            Resources.Add("Title", noteTitle);
             InitializeComponent();
-            DataContext = new WindowCreateAndEditNoteViewModel(note);
         }
     }
 }

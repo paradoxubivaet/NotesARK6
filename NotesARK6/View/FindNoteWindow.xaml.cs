@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NotesARK6.Services;
+using NotesARK6.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +14,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace NotesARK6.ViewModel.Dialogs
+namespace NotesARK6.View
 {
     /// <summary>
-    /// Логика взаимодействия для FindWindowDialog.xaml
+    /// Логика взаимодействия для FindNoteWindow.xaml
     /// </summary>
-    public partial class FindWindowDialog : Window
+    public partial class FindNoteWindow : Window
     {
-        public FindWindowDialog()
+        public FindNoteWindow()
         {
             InitializeComponent();
-            DataContext = new FindWindowDialogViewModel();
         }
     }
 }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NotesARK6.Converters
+namespace NotesARK6.Services
 {
-    public class BoolToVisibilityConverter 
+    public interface IWindowService
     {
+        void ShowWindow(string name);
     }
 }
