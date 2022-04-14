@@ -114,6 +114,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messages\CreateEditParametersMessage.cs" />
+    <Compile Include="Messages\NotificationMessage.cs" />
     <Compile Include="Messages\SearchSettingMessage.cs" />
     <Compile Include="Model\NotesCollectionModel.cs" />
     <Compile Include="Services\ControllComands.cs" />

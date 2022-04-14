@@ -1,18 +1,7 @@
-﻿using NotesARK6.Services;
-using NotesARK6.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using NotesARK6.Messages;
+using NotesARK6.Services;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace NotesARK6.View
 {
@@ -24,6 +13,13 @@ namespace NotesARK6.View
         public FindNoteWindow()
         {
             InitializeComponent();
+        }
+
+        // Реализовать обработку закрытия окна в FindNoteWindowViewModel.cs (пока не знаю как)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            IMessenger messenger = Ioc.Default.GetService<IMessenger>();
+            messenger.Send(new NotificationMessage(true));
         }
     }
 }

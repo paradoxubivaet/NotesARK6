@@ -10,10 +10,11 @@ namespace NotesARK6.ViewModel
         private string searchString;
         private bool searchByName;
         private bool searchByContent;
-        private IMessenger messenger;
+        private IMessenger messenger; 
 
         //Controll commands
         public ControllComands FindNotesCommand { get; private set; }
+        public ControllComands CloseWindowCommand { get; private set; }
         //Controll commands
 
         public FindNoteWindowViewModel(IMessenger messenger)
@@ -64,8 +65,14 @@ namespace NotesARK6.ViewModel
 
         public void FindNote()
         {
-            messenger.Send(new SearchSettingMessage(SearchString, SearchByName, SearchByContent));
+            if (SearchString != null)
+                messenger.Send(new SearchSettingMessage(SearchString, SearchByName, SearchByContent));
         }
+
+        //public void Window_Closing(object sender, CancelEventArgs e)
+        //{
+        //    messenger.Send(new NotificationMessage(true));
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

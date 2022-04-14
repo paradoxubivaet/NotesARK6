@@ -1,9 +1,11 @@
 ﻿using NotesARK6.Messages;
 using NotesARK6.Model;
 using NotesARK6.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace NotesARK6.ViewModel
 {
@@ -19,13 +21,14 @@ namespace NotesARK6.ViewModel
         public ControllComands SaveNoteCommand { get; private set; }
         // Commands 
 
-        public WindowCreateAndEditNoteViewModel(IMessenger messenger) 
+        public WindowCreateAndEditNoteViewModel(IMessenger messenger)
         {
-            notesCollectionModel = NotesCollectionModel.notesCollection;
             
+            notesCollectionModel = NotesCollectionModel.notesCollection;
+
             this.messenger = messenger;
             messenger.Subscribe<CreateEditParametersMessage>(this, TakeMessage);
-            
+
             SaveNoteCommand = new ControllComands(SaveNote);
         }
 
@@ -42,20 +45,20 @@ namespace NotesARK6.ViewModel
             }
         }
 
-        public string Content 
-        { 
-            get 
+        public string Content
+        {
+            get
             {
                 return content;
-            }  
+            }
             set
             {
                 content = value;
                 OnPropertyChanged("Content");
-            } 
+            }
         }
 
-        public ObservableCollection<Note> NotesCollection 
+        public ObservableCollection<Note> NotesCollection
         {
             get
             {

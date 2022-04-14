@@ -7,7 +7,6 @@ using System.Windows.Data;
 using NotesARK6.Services;
 using NotesARK6.Messages;
 
-
 namespace NotesARK6.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
@@ -15,9 +14,9 @@ namespace NotesARK6.ViewModel
         private NotesCollectionModel notesCollectionModel;
         private Note selectedNote;
 
+        private ICollectionView collectionView;
         private IWindowService windowService;
         public IMessenger messenger;
-        
 
         // Controll comands {
         public ControllComands CreateNewNoteCommand { get; private set; }
@@ -38,10 +37,13 @@ namespace NotesARK6.ViewModel
                     new ObservableCollection<Note> { new Note("today", "i'm a testing note :o"),
                     new Note("today", "yeah bro")};
 
+            collectionView = CollectionViewSource.GetDefaultView(this.NotesCollection);
 
             this.messenger = messenger;
             this.windowService = windowService;
+
             messenger.Subscribe<SearchSettingMessage>(this, MethodForMessage);
+            messenger.Subscribe<NotificationMessage>(this, ClearFilter);
         }
 
         public ObservableCollection<Note> NotesCollection
@@ -71,6 +73,8 @@ namespace NotesARK6.ViewModel
 
         public void CreateNewNote()
         {
+            collectionView.Filter = null;
+
             string noteTitle = DateTime.Now.ToString();
             Note note = new Note(noteTitle);
             NotesCollection.Add(note);
@@ -98,8 +102,7 @@ namespace NotesARK6.ViewModel
 
         public void SortNotes(string searchString)
         {
-            ICollectionView notesView = CollectionViewSource.GetDefaultView(this.NotesCollection);
-            notesView.Filter = item => (item as Note).Content.Contains(searchString);
+            collectionView.Filter = item => (item as Note).Content.Contains(searchString);
         }
 
         public void EditNote(Note note)
@@ -108,6 +111,13 @@ namespace NotesARK6.ViewModel
 
             windowService.ShowWindow("WindowCreateAndEditNote");
             messenger.Send(new CreateEditParametersMessage(noteTitle, ref note));
+        }
+
+        private void ClearFilter(object obj)
+        {
+            var message = (NotificationMessage)obj;
+            if(message.IsClose)
+                collectionView.Filter = null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
