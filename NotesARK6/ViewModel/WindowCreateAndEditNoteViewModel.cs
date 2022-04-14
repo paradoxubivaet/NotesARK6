@@ -38,6 +38,7 @@ namespace NotesARK6.ViewModel
             set
             {
                 windowTitle = value;
+                OnPropertyChanged("WindowTitle");
             }
         }
 
@@ -74,6 +75,7 @@ namespace NotesARK6.ViewModel
         public void TakeMessage(object obj)
         {
             var message = (CreateEditParametersMessage)obj;
+            windowTitle = message.NoteTitle;
             Content = message.Note.Content;
             currentNote = message.Note;
         }

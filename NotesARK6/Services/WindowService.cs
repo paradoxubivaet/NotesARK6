@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace NotesARK6.Services
 {
@@ -13,15 +12,5 @@ namespace NotesARK6.Services
 
             window.Show();
         }
-
-        //public void ShowWindowSecond()
-        //{
-            //var window = new Window();
-
-            //var type = Type.GetType($"NotesARK6.View.{name}");
-            //window.Content = Activator.CreateInstance(type);
-
-            //window.Show();
-        //}
     }
 }
