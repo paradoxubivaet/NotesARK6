@@ -116,9 +116,12 @@
     <Compile Include="Messages\CreateEditParametersMessage.cs" />
     <Compile Include="Messages\NotificationMessage.cs" />
     <Compile Include="Messages\SearchSettingMessage.cs" />
+    <Compile Include="Messages\UpdateMessage.cs" />
     <Compile Include="Model\NotesCollectionModel.cs" />
     <Compile Include="Services\ControllComands.cs" />
     <Compile Include="Services\ControllComandsWithParameter.cs" />
+    <Compile Include="Services\ControllDataBase.cs" />
+    <Compile Include="Services\IControllDataBase.cs" />
     <Compile Include="Services\IMessenger.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\Messenger.cs" />

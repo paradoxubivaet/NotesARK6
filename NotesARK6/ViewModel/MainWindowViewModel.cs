@@ -16,7 +16,8 @@ namespace NotesARK6.ViewModel
 
         private ICollectionView collectionView;
         private IWindowService windowService;
-        public IMessenger messenger;
+        private IMessenger messenger;
+        private IControllDataBase controllDataBase;
 
         // Controll comands {
         public ControllComands CreateNewNoteCommand { get; private set; }
@@ -25,7 +26,7 @@ namespace NotesARK6.ViewModel
         public ControllComandsWithParameter EditNoteCommand { get; private set; }
         // Controll comands }
 
-        public MainWindowViewModel(IMessenger messenger, IWindowService windowService)
+        public MainWindowViewModel(IMessenger messenger, IWindowService windowService, IControllDataBase controllDataBase)
         {
             CreateNewNoteCommand = new ControllComands(CreateNewNote);
             DeleteNoteCommand = new ControllComandsWithParameter(DeleteNote);
@@ -33,17 +34,15 @@ namespace NotesARK6.ViewModel
             FindNoteCommand = new ControllComands(FindNote);
 
             notesCollectionModel = NotesCollectionModel.notesCollection;
-            notesCollectionModel.NotesCollection =
-                    new ObservableCollection<Note> { new Note("today", "i'm a testing note :o"),
-                    new Note("today", "yeah bro")};
-
             collectionView = CollectionViewSource.GetDefaultView(this.NotesCollection);
 
             this.messenger = messenger;
             this.windowService = windowService;
+            this.controllDataBase = controllDataBase;
 
-            messenger.Subscribe<SearchSettingMessage>(this, MethodForMessage);
+            messenger.Subscribe<SearchSettingMessage>(this, TakingSearchMessage);
             messenger.Subscribe<NotificationMessage>(this, ClearFilter);
+            messenger.Subscribe<UpdateMessage>(this, UpdateSupport);
         }
 
         public ObservableCollection<Note> NotesCollection
@@ -55,6 +54,7 @@ namespace NotesARK6.ViewModel
             set
             {
                 notesCollectionModel.NotesCollection = value;
+                OnPropertyChanged("NotesCollection");
             }
         }
 
@@ -77,16 +77,16 @@ namespace NotesARK6.ViewModel
 
             string noteTitle = DateTime.Now.ToString();
             Note note = new Note(noteTitle);
-            NotesCollection.Add(note);
+            controllDataBase.Add(note);
 
             windowService.ShowWindow("WindowCreateAndEditNote");
             messenger.Send(new CreateEditParametersMessage(noteTitle, ref note));
         }
 
-        // Delete note
         public void DeleteNote(Note note)
         {
-            NotesCollection.Remove(note);
+            if(note != null)
+                controllDataBase.Remove(note);
         }
 
         public void FindNote()
@@ -94,15 +94,21 @@ namespace NotesARK6.ViewModel
             windowService.ShowWindow("FindNoteWindow");
         }
 
-        public void MethodForMessage(object obj)
+        public void TakingSearchMessage(object obj)
         {
             var message = (SearchSettingMessage)obj;
-            SortNotes(message.SearchText);
+            SortNotes(message.SearchText, message.SearchByContent, message.SearchByName);
         }
 
-        public void SortNotes(string searchString)
+        public void SortNotes(string searchString, bool searchByContent, bool SearchByName)
         {
-            collectionView.Filter = item => (item as Note).Content.Contains(searchString);
+            if (searchByContent && !SearchByName)
+                collectionView.Filter = item => (item as Note).Content.Contains(searchString);
+            else if (SearchByName && !searchByContent)
+                collectionView.Filter = item => (item as Note).Name.Contains(searchString);
+            else if (searchByContent && SearchByName)
+                collectionView.Filter = item => (item as Note).Name.Contains(searchString) || (item as Note).Content.Contains(searchString);
+            collectionView = CollectionViewSource.GetDefaultView(this.NotesCollection);
         }
 
         public void EditNote(Note note)
@@ -116,8 +122,15 @@ namespace NotesARK6.ViewModel
         private void ClearFilter(object obj)
         {
             var message = (NotificationMessage)obj;
-            if(message.IsClose)
+            if(message.Flag)
                 collectionView.Filter = null;
+        }
+
+        public void UpdateSupport(object obj)
+        {
+            var message = (UpdateMessage)obj;
+            if (message.Flag == true)
+                NotesCollection = notesCollectionModel.NotesCollection;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

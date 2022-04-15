@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using NotesARK6.Model;
 using NotesARK6.Services;
-using NotesARK6.View;
 using NotesARK6.ViewModel;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace NotesARK6
@@ -26,8 +23,20 @@ namespace NotesARK6
                 .AddTransient<WindowCreateAndEditNoteViewModel>()
                 .AddSingleton<IWindowService, WindowService>()
                 .AddSingleton<IMessenger, Messenger>()
+                .AddTransient<IControllDataBase, ControllDataBase>()
                 .BuildServiceProvider()
                 );
-        }   
+
+            Dumping();
+        }
+
+        public void Dumping()
+        {
+            using (NoteContext context = new NoteContext())
+            {
+                List<Note> notes = context.Notes.ToList();
+                NotesCollectionModel.notesCollection.NotesCollection = new ObservableCollection<Note>(notes);
+            }
+        }
     }
 }

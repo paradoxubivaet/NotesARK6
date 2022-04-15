@@ -1,9 +1,9 @@
 ﻿namespace NotesARK6.Messages
 {
-    public class NotificationMessage
+    public class UpdateMessage
     {
         public bool Flag { get; }
-        public NotificationMessage(bool flag)
+        public UpdateMessage(bool flag)
         {
             Flag = flag;
         }

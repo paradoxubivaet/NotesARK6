@@ -12,21 +12,25 @@ namespace NotesARK6.ViewModel
     public class WindowCreateAndEditNoteViewModel : INotifyPropertyChanged
     {
         private NotesCollectionModel notesCollectionModel;
-        private IMessenger messenger;
+        private Note currentNote;
         private string windowTitle;
         private string content;
-        private Note currentNote;
+
+        private IMessenger messenger;
+        private IControllDataBase controllDataBase;
 
         // Commands
         public ControllComands SaveNoteCommand { get; private set; }
         // Commands 
 
-        public WindowCreateAndEditNoteViewModel(IMessenger messenger)
+        public WindowCreateAndEditNoteViewModel(IMessenger messenger, IControllDataBase controllDataBase)
         {
             
             notesCollectionModel = NotesCollectionModel.notesCollection;
 
             this.messenger = messenger;
+            this.controllDataBase = controllDataBase;
+
             messenger.Subscribe<CreateEditParametersMessage>(this, TakeMessage);
 
             SaveNoteCommand = new ControllComands(SaveNote);
@@ -72,7 +76,7 @@ namespace NotesARK6.ViewModel
 
         public void SaveNote()
         {
-            currentNote.Content = Content;
+            controllDataBase.Edit(currentNote, Content);
         }
 
         public void TakeMessage(object obj)

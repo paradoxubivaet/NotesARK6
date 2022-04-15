@@ -10,7 +10,6 @@ namespace NotesARK6.Messages
     public class CreateEditParametersMessage
     {
         public string NoteTitle { get; }
-        // Пока не знаю, как мне передать ссылку на объект.
         public Note Note { get; }
 
         public CreateEditParametersMessage(string noteTitle, ref Note note)
