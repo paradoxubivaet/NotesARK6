@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="1" Grid.Column="1" Margin="5">
-            <Button Content="Сохранить" Command="{Binding SaveNoteCommand}" />
+            <Button Content="Save" Command="{Binding SaveNoteCommand}" />
             <Separator></Separator>
         </ToolBar>
 

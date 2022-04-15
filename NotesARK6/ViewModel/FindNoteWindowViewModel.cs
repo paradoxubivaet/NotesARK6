@@ -14,13 +14,13 @@ namespace NotesARK6.ViewModel
 
         //Controll commands
         public ControllComands FindNotesCommand { get; private set; }
-        public ControllComands CloseWindowCommand { get; private set; }
+        public ControllComands WindowClosingCommand { get; private set; }
         //Controll commands
 
         public FindNoteWindowViewModel(IMessenger messenger)
         {
             FindNotesCommand = new ControllComands(FindNote);
-
+            WindowClosingCommand = new ControllComands(WindowClosing);
             this.messenger = messenger;
         }
 
@@ -69,10 +69,10 @@ namespace NotesARK6.ViewModel
                 messenger.Send(new SearchSettingMessage(SearchString, SearchByName, SearchByContent));
         }
 
-        //public void Window_Closing(object sender, CancelEventArgs e)
-        //{
-        //    messenger.Send(new NotificationMessage(true));
-        //}
+        public void WindowClosing()
+        {
+            messenger.Send(new NotificationMessage(true));
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

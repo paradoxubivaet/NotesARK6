@@ -14,12 +14,5 @@ namespace NotesARK6.View
         {
             InitializeComponent();
         }
-
-        // Реализовать обработку закрытия окна в FindNoteWindowViewModel.cs (пока не знаю как)
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            IMessenger messenger = Ioc.Default.GetService<IMessenger>();
-            messenger.Send(new NotificationMessage(true));
-        }
     }
 }
