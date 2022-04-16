@@ -10,7 +10,7 @@ namespace NotesARK6.Services
         ConcurrentDictionary<Type, SynchronizedCollection<Subscription>> _subscriptions =
             new ConcurrentDictionary<Type, SynchronizedCollection<Subscription>>();
         ConcurrentDictionary<Type, object> _currentState = new ConcurrentDictionary<Type, object>();
-
+        
         public void Send<TMessage>(TMessage message)
         {
             // Если сообщения нет, то выбрасывается Null Исключение 

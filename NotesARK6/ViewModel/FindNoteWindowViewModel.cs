@@ -2,6 +2,7 @@
 using NotesARK6.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace NotesARK6.ViewModel
 {
@@ -11,17 +12,31 @@ namespace NotesARK6.ViewModel
         private bool searchByName;
         private bool searchByContent;
         private IMessenger messenger; 
+        private IWindowService windowService; 
+        private int windowId;
 
         //Controll commands
         public ControllComands FindNotesCommand { get; private set; }
         public ControllComands WindowClosingCommand { get; private set; }
+        public ControllComands CloseWindowCommand { get; private set; }
+        public ControllComands MaximizeWindowCommand { get; private set; }
+        public ControllComands MinimizeWindowCommand { get; private set; }
         //Controll commands
 
-        public FindNoteWindowViewModel(IMessenger messenger)
+        public FindNoteWindowViewModel(IMessenger messenger, IWindowService windowService)
         {
             FindNotesCommand = new ControllComands(FindNote);
             WindowClosingCommand = new ControllComands(WindowClosing);
+            CloseWindowCommand = new ControllComands(CloseWindow);
+            MaximizeWindowCommand = new ControllComands(MaximizeWindow);
+            MinimizeWindowCommand = new ControllComands(MinimizeWindow);
+
             this.messenger = messenger;
+            this.windowService = windowService;
+
+            messenger.Subscribe<GetIdMessage>(this, GetId);
+
+            windowId = -1;
         }
 
         public string SearchString
@@ -72,6 +87,28 @@ namespace NotesARK6.ViewModel
         public void WindowClosing()
         {
             messenger.Send(new NotificationMessage(true));
+        }
+
+        public void CloseWindow()
+        {
+            windowService.CloseWindow(windowId);
+        }
+
+        public void MaximizeWindow()
+        {
+            windowService.MaximizeWindow(windowId);
+        }
+
+        public void MinimizeWindow()
+        {
+            windowService.MinimizeWindow(windowId);
+        }
+
+        public void GetId(object obj)
+        {
+            var message = (GetIdMessage)obj;
+            if (windowId == -1)
+                windowId = message.Id;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

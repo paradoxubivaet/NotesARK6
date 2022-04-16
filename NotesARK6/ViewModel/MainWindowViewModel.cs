@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using NotesARK6.Services;
 using NotesARK6.Messages;
+using System.Windows;
 
 namespace NotesARK6.ViewModel
 {
@@ -24,6 +25,9 @@ namespace NotesARK6.ViewModel
         public ControllComands FindNoteCommand { get; private set; }
         public ControllComandsWithParameter DeleteNoteCommand { get; private set; }
         public ControllComandsWithParameter EditNoteCommand { get; private set; }
+        public ControllComands CloseWindowCommand { get; private set; }
+        public ControllComands MaximizeWindowCommand { get; private set; }
+        public ControllComands MinimizeWindowCommand { get; private set; }
         // Controll comands }
 
         public MainWindowViewModel(IMessenger messenger, IWindowService windowService, IControllDataBase controllDataBase)
@@ -32,6 +36,10 @@ namespace NotesARK6.ViewModel
             DeleteNoteCommand = new ControllComandsWithParameter(DeleteNote);
             EditNoteCommand = new ControllComandsWithParameter(EditNote);
             FindNoteCommand = new ControllComands(FindNote);
+            CloseWindowCommand = new ControllComands(CloseWindow);
+            MaximizeWindowCommand = new ControllComands(MaximizeWindow);
+            MinimizeWindowCommand = new ControllComands(MinimizeWindow);
+
 
             notesCollectionModel = NotesCollectionModel.notesCollection;
             collectionView = CollectionViewSource.GetDefaultView(this.NotesCollection);
@@ -131,6 +139,27 @@ namespace NotesARK6.ViewModel
             var message = (UpdateMessage)obj;
             if (message.Flag == true)
                 NotesCollection = notesCollectionModel.NotesCollection;
+        }
+
+        public void CloseWindow()
+        {
+            Application.Current.Shutdown();
+        }
+
+        public void MaximizeWindow()
+        {
+            var currentState = Application.Current.MainWindow.WindowState;
+            if(currentState == WindowState.Normal)
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            else if(currentState == WindowState.Maximized)
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            else if(currentState == WindowState.Minimized)
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+        }
+
+        public void MinimizeWindow()
+        {
+            App.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

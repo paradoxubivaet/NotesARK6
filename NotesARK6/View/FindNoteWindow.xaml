@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         DataContext="{Binding Path=FindNoteWindowViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d" 
+        Background="#36363F"
+        WindowStyle="None"
         Title="FindNoteWindow" Height="250" Width="400">
     
     <i:Interaction.Triggers>
@@ -12,8 +14,11 @@
             <i:InvokeCommandAction Command="{Binding WindowClosingCommand}"/>
         </i:EventTrigger>    
     </i:Interaction.Triggers>
-    
+
+
+
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
@@ -21,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="50"/>
@@ -34,9 +39,31 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <CheckBox  IsChecked="{Binding SearchByName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by name" Grid.Column="0"></CheckBox>
-            <CheckBox IsChecked="{Binding SearchByContent}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by content" Grid.Column="1"></CheckBox>
+            <CheckBox FontWeight="DemiBold" Foreground="GhostWhite" IsChecked="{Binding SearchByName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by name" Grid.Column="0"></CheckBox>
+            <CheckBox FontWeight="DemiBold" Foreground="GhostWhite" IsChecked="{Binding SearchByContent}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Content="Search by content" Grid.Column="1"></CheckBox>
         </Grid>
+
+        <Border Margin="5,0,5,0" Background="#252525" Grid.Row="0" Grid.Column="1">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Command="{Binding MinimizeWindowCommand}" 
+                        Width="20" Height="20"
+                        Content="🗕" Background="Transparent" 
+                        BorderThickness="0" Foreground="Gray"
+                        FontWeight="Bold"
+                        Margin="0,0,0,-3"/>
+                <Button Command="{Binding MaximizeWindowCommand}" 
+                        Width="20" Height="20"
+                        Content="⬜" Background="Transparent" 
+                        BorderThickness="0" Foreground="Gray"
+                        FontWeight="Bold"
+                        Margin="0,0,0,-5"/>
+                <Button Command="{Binding CloseWindowCommand}"
+                    Width="20" Height="20"
+                        Content="╳" Background="Transparent" 
+                        BorderThickness="0" Foreground="Gray"
+                        FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
 
         <TextBox Text="{Binding SearchString}" Margin="5" Grid.Row="2" Grid.Column="1"/>
         <Button Command="{Binding FindNotesCommand}" Margin="5" Content="Find" Grid.Row="3" Grid.Column="1" />

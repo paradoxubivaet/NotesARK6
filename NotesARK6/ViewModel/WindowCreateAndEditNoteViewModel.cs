@@ -15,25 +15,37 @@ namespace NotesARK6.ViewModel
         private Note currentNote;
         private string windowTitle;
         private string content;
+        private int windowId;
 
         private IMessenger messenger;
         private IControllDataBase controllDataBase;
+        private IWindowService windowService;
 
         // Commands
         public ControllComands SaveNoteCommand { get; private set; }
+        public ControllComands CloseWindowCommand { get; private set; }
+        public ControllComands MaximizeWindowCommand { get; private set; }
+        public ControllComands MinimizeWindowCommand { get; private set; }
         // Commands 
 
-        public WindowCreateAndEditNoteViewModel(IMessenger messenger, IControllDataBase controllDataBase)
+        public WindowCreateAndEditNoteViewModel(IMessenger messenger, 
+                                                IControllDataBase controllDataBase,
+                                                IWindowService windowService)
         {
-            
             notesCollectionModel = NotesCollectionModel.notesCollection;
+            windowId = -1;
 
             this.messenger = messenger;
             this.controllDataBase = controllDataBase;
+            this.windowService = windowService;
 
-            messenger.Subscribe<CreateEditParametersMessage>(this, TakeMessage);
+            messenger.Subscribe<CreateEditParametersMessage>(this, GetContent);
+            messenger.Subscribe<GetIdMessage>(this, GetId);
 
             SaveNoteCommand = new ControllComands(SaveNote);
+            CloseWindowCommand = new ControllComands(CloseWindow);
+            MaximizeWindowCommand = new ControllComands(MaximizeWindow);
+            MinimizeWindowCommand = new ControllComands(MinimizeWindow);
         }
 
         public string WindowTitle
@@ -79,12 +91,34 @@ namespace NotesARK6.ViewModel
             controllDataBase.Edit(currentNote, Content);
         }
 
-        public void TakeMessage(object obj)
+        public void GetContent(object obj)
         {
             var message = (CreateEditParametersMessage)obj;
             windowTitle = message.NoteTitle;
             Content = message.Note.Content;
             currentNote = message.Note;
+        }
+
+        public void CloseWindow()
+        {
+            windowService.CloseWindow(windowId);
+        }
+
+        public void MaximizeWindow()
+        {
+            windowService.MaximizeWindow(windowId);
+        }
+
+        public void MinimizeWindow()
+        {
+            windowService.MinimizeWindow(windowId);
+        }
+
+        public void GetId(object obj)
+        {
+            var message = (GetIdMessage)obj;
+            if(windowId == -1)
+                windowId = message.Id;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

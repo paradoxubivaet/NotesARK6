@@ -5,13 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotesARK6.View"
         xmlns:model="clr-namespace:NotesARK6.Model"
-        xmlns:viewmodel="clr-namespace:NotesARK6.ViewModel"
+        xmlns:viewmodel="clr-namespace:NotesARK6.ViewModel" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         DataContext="{Binding Path=MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
-        Title="Notes" Height="450" Width="800"
+        Title="Notes" Height="600" Width="920"
         x:Name="_mainWindow"
+        Background="#36363F"
+        WindowStyle="None"
         WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger ></i:EventTrigger>
+    </i:Interaction.Triggers>
 
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -20,12 +26,34 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
+        <Border Margin="5,0,5,0" Background="#252525" Grid.Row="0" Grid.Column="1">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Command="{Binding MinimizeWindowCommand}" 
+                        Width="20" Height="20"
+                        Content="🗕" Background="Transparent" 
+                        BorderThickness="0" Foreground="Gray"
+                        FontWeight="Bold"
+                        Margin="0,0,0,-3"/>
+                <Button Command="{Binding MaximizeWindowCommand}" 
+                        Width="20" Height="20"
+                        Content="⬜" Background="Transparent" 
+                        BorderThickness="0" Foreground="Gray"
+                        FontWeight="Bold"
+                        Margin="0,0,0,-5"/>
+                <Button Command="{Binding CloseWindowCommand}"
+                    Width="20" Height="20"
+                        Content="╳" Background="Transparent" 
+                        BorderThickness="0" Foreground="Gray"
+                        FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+        
         <DataGrid ItemsSource="{Binding NotesCollection}" SelectedItem="{Binding SelectedNote}" IsReadOnly="True" AutoGenerateColumns="False" x:Name="DataGrid_Notes" Margin="5" Grid.Row="2" Grid.Column="1">
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding EditNoteCommand}" CommandParameter="{Binding SelectedNote}" />

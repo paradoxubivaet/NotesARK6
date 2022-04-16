@@ -114,6 +114,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messages\CreateEditParametersMessage.cs" />
+    <Compile Include="Messages\GetIdMessage.cs" />
     <Compile Include="Messages\NotificationMessage.cs" />
     <Compile Include="Messages\SearchSettingMessage.cs" />
     <Compile Include="Messages\UpdateMessage.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Services\ControllComands.cs" />
     <Compile Include="Services\ControllComandsWithParameter.cs" />
     <Compile Include="Services\ControllDataBase.cs" />
+    <Compile Include="Services\DictionaryWindows.cs" />
     <Compile Include="Services\IControllDataBase.cs" />
     <Compile Include="Services\IMessenger.cs" />
     <Compile Include="Services\IWindowService.cs" />
