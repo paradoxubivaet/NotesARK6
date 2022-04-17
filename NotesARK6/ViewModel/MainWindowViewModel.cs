@@ -116,7 +116,6 @@ namespace NotesARK6.ViewModel
                 collectionView.Filter = item => (item as Note).Name.Contains(searchString);
             else if (searchByContent && SearchByName)
                 collectionView.Filter = item => (item as Note).Name.Contains(searchString) || (item as Note).Content.Contains(searchString);
-            collectionView = CollectionViewSource.GetDefaultView(this.NotesCollection);
         }
 
         public void EditNote(Note note)

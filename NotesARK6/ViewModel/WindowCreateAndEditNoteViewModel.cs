@@ -33,7 +33,6 @@ namespace NotesARK6.ViewModel
                                                 IWindowService windowService)
         {
             notesCollectionModel = NotesCollectionModel.notesCollection;
-            windowId = -1;
 
             this.messenger = messenger;
             this.controllDataBase = controllDataBase;
@@ -46,6 +45,8 @@ namespace NotesARK6.ViewModel
             CloseWindowCommand = new ControllComands(CloseWindow);
             MaximizeWindowCommand = new ControllComands(MaximizeWindow);
             MinimizeWindowCommand = new ControllComands(MinimizeWindow);
+
+            windowId = -1;
         }
 
         public string WindowTitle
@@ -117,12 +118,12 @@ namespace NotesARK6.ViewModel
         public void GetId(object obj)
         {
             var message = (GetIdMessage)obj;
-            if(windowId == -1)
+            if (windowId == -1)
                 windowId = message.Id;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
